@@ -2,14 +2,32 @@
  * Refs:
  * Simple web server: http://arduino-er.blogspot.com/2015/05/arduino-esp8266-simpe-web-server.html
  * 
+ * [SETTING MODE]
+ * ESP8266 | ARDUINO
+ * RX      | RX
+ * TX      | TX
+ * GND     | GND
+ * VCC     | 3.3
+ * CH_PD(EN)| 3.3
+ * GPIO 0  | None
+ * GPIO 2  | None
+ * 
+ * ARDUINO | ARDUINO
+ * Reset   | GND
+ * 
+ * 
+ * [RUNNING MODE]
  * ESP8266 | ARDUINO
  * RX      | 3 
  * TX      | 2
  * GND     | GND
  * VCC     | 3.3
- * CH_PD   | 3.3
+ * CH_PD(EN)| 3.3
  * GPIO 0  | None
  * GPIO 2  | None
+ * 
+ * AT Command : http://absaransari.com/2018/01/24/setting-up-esp8266-wifi-mofule-using-at-commands-set/
+ * 
  * 
  */
 
@@ -104,6 +122,9 @@ void setup()
    
   sendData("AT+RST\r\n",2000,DEBUG); // reset module
   sendData("AT+CWMODE=2\r\n",1000,DEBUG); // configure as access point
+  sendData("AT+CIPAP=\"192.168.10.1\"\r\n",3000,DEBUG); // check
+  sendData("AT+CWSAP_DEF=\"DYNAMIC_ENERGY\",\"tomorrow\",1,3,4,0\r\n",2000,DEBUG); // Note: where 1=channel, 3=WPA2_PSK, 4=Max Connections, 0=SSID is broadcasted
+  sendData("AT+CWSAP?\r\n",3000,DEBUG); // check
   sendData("AT+CIFSR\r\n",1000,DEBUG); // get ip address
   sendData("AT+CIPMUX=1\r\n",1000,DEBUG); // configure for multiple connections
   sendData("AT+CIPSERVER=1,80\r\n",1000,DEBUG); // turn on server on port 80
