@@ -14,7 +14,8 @@
 RF24 myRadio (7, 8);
 
 // address to be transmitted, make sure it is the same 
-byte addresses[][6] = {"0"};
+//byte addresses[][6] = {"0"};
+const byte addresses[6] = {'R','E','L','I','F','E'};
 struct package
 {
   /*
@@ -80,9 +81,13 @@ void loop() {
             data.rH = rH;
             data.lT = lT;
             data.rT = rT;
-            myRadio.write(&data, SIZE_DATA); 
-            Serial.println("Valid Data. Sent");
-            data.id += 1;
+            bool rt = myRadio.write(&data, SIZE_DATA); 
+            if(rt){
+              Serial.println("Valid Data. Sent");
+              data.id += 1;
+            }else{
+              Serial.println("[ERROR] Sending failed!");
+            }
           }
         }
       }

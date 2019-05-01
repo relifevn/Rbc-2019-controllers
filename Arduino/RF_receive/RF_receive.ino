@@ -33,7 +33,8 @@ struct package
   int rT=1;
 };
 
-byte addresses[][6] = {"0"}; 
+//byte addresses[][6] = {"0"}; 
+const byte addresses[6] = {'R','E','L','I','F','E'};
 
 
 
